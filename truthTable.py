@@ -1,61 +1,84 @@
 import itertools
 
-numOfVars = 2
+numOfVars = 3
 
 
-def build_truth_table(n):
+def create_truth_tables(n):
+    """
+    :param n: Number of arguments to create columns for.
+    :return: Table containing columns for each argument.
+    """
     table = list(itertools.product([False, True], repeat=n))
     return table
 
 
-def compare_tables(table1, table2):
-    for a, b in zip(table1, table2):
+def create_and(column1, column2):
+    """
+    :param column1: First column to be compared.
+    :param column2: Second column to be compared.
+    :return: New column based on an AND compare of the two columns.
+    """
+    new_column = []
+    for a, b in zip(column1, column2):
+        if a and b:
+            new_column.append(True)
+        else:
+            new_column.append(False)
+    return new_column
+
+
+def create_or(column1, column2):
+    """
+    :param column1: First column to be compared.
+    :param column2: Second column to be compared.
+    :return: New column based on an OR compare of the two columns.
+    """
+    new_column = []
+    for a, b in zip(column1, column2):
+        if a or b:
+            new_column.append(True)
+        else:
+            new_column.append(False)
+    return new_column
+
+
+def create_not(column1):
+    """
+    :param column1: Column to be negated (NOT)
+    :return: New column that is the opposite of the original column.
+    """
+    new_column = []
+    for a in column1:
+        if a:
+            new_column.append(False)
+        else:
+            new_column.append(True)
+    return new_column
+
+
+def are_columns_equal(column1, column2):
+    """
+    :param column1: First column to be compared.
+    :param column2: Second column to be compared.
+    :return: True if the columns are equal, False if they are not.
+    """
+    """ Compare two columns to determine equality. """
+    for a, b in zip(column1, column2):
         if a != b:
             return False
         else:
             return True
 
-truthTable = build_truth_table(numOfVars)
+truthTable = create_truth_tables(numOfVars)
 
 P = [row[0] for row in truthTable]
 Q = [row[1] for row in truthTable]
 R = P
 
-print(compare_tables(P, R))
-
-
-"""
-print("P or Q = ")
-print(P)
-print(Q)
-print("---")
-print(P or Q)
-
-print("------")
-if P[1] or Q[1]:
-    print(True)
-else:
-    print(False)
-print("------")
-
-for element in P:
-    print("\nP[row] =")
-    print(P[element])
-    print("Q[row] =")
-    print(Q[element])
-    print("P[row] or Q[row] =")
-    if P[element] or Q[element]:
-        print(True)
-    else:
-        print(False)
-
-# i = 0
-# while i < numOfVars:
-#     print("\nColumn " + str(i))
-#     for row in truthTable:
-#         print(row[i])
-#     i += 1
-"""
+print(are_columns_equal(P, R))
+print(create_and(P, Q))
+print(create_or(P, Q))
+print(create_not(P))
 
 
 
